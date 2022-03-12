@@ -12,6 +12,7 @@ class TodoApp extends Component {
               <Route exact path="/"  element={<LoginComponent/>} />
               <Route path="/login" element={<LoginComponent/>} />
               <Route path="/welcome/:name" element={<WelcomeComponent/>} />
+              <Route path="/todos" element={<ListTodoComponent/>} />
               <Route path="*" element={<ErrorComponent/>} />
           </Routes>
         </Router>
@@ -23,6 +24,46 @@ class TodoApp extends Component {
 function WelcomeComponent() {
   let params = useParams();
     return <div>welcome {params.name}</div>;
+  
+}
+function ListTodoComponent() {
+  const [todo, setTodo] = useState([
+    {
+      id: 1,
+      description: 'Learn React'
+    },
+    {
+      id: 2,
+      description: 'Learn AWS'
+    },
+    {
+      id: 3,
+      description: 'Learn Reat'
+    }
+  ]); 
+    return <div>
+      <h1>List Todo</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+        {
+              todo.map((t,i) =>(
+          <tr key={i}>
+            
+              <td >{t.id}</td>
+              <td>{t.description}</td>
+          </tr>
+
+              ))
+            }
+        </tbody>
+      </table>
+    </div>;
   
 }
 
