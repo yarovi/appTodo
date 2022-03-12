@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route ,useParams,useNavigate, Link   }
 
 import '../boostrap.css'
 
+import AuthenticationService from "./AuthenticationService";
+
 class TodoApp extends Component {
   render() {
     return (
@@ -35,7 +37,7 @@ function HeaderComponent(){
       </ul>
       <ul className="navbar-nav navbar-collapse justify-content-end">
         <li><Link className="nav-link" to="/login">Login</Link></li>
-        <li ><Link className="nav-link" to="/logout">Logout</Link></li>
+        <li ><Link className="nav-link" to="/logout" onClick={AuthenticationService.logout}>Logout</Link></li>
       </ul>
     </nav>
   </header>
@@ -150,6 +152,7 @@ function LoginComponent() {
     
     if (username === "in28" && password === "as") {
       console.log('LoginClicked redirecionando ... '+username);
+      AuthenticationService.registerSuccessFullLogin(username,password);
       navigation(`/welcome/${username}`);
       setShowSucessMessage(true);
       setHasLoginFailed(false);
