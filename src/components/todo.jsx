@@ -14,6 +14,7 @@ class TodoApp extends Component {
               <Route path="/login" element={<LoginComponent/>} />
               <Route path="/welcome/:name" element={<WelcomeComponent/>} />
               <Route path="/todos" element={<ListTodoComponent/>} />
+              <Route path="/logout" element={<LogoutComponent/>} />
               <Route path="*" element={<ErrorComponent/>} />
           </Routes>
           <FooterComponent/>
@@ -24,23 +25,52 @@ class TodoApp extends Component {
 }
 
 function HeaderComponent(){
-  return <div>
-    Header<hr/>
-  </div>
+  return (
+  <header>
+    <nav className="navbar navbar-expand-md navbar-dark bg-dark">
+      <div><a  className="navbar-brand">inYasmani</a></div>
+      <ul className="navbar-nav">
+        <li ><Link className="nav-link" to="/welcome/inyas">Home</Link></li>
+        <li ><Link className="nav-link" to="/todos">Todos</Link></li>
+      </ul>
+      <ul className="navbar-nav navbar-collapse justify-content-end">
+        <li><Link className="nav-link" to="/login">Login</Link></li>
+        <li ><Link className="nav-link" to="/logout">Logout</Link></li>
+      </ul>
+    </nav>
+  </header>
+  )
 }
 
 function FooterComponent(){
-  return <div>
-    <hr/>
-    Footer
-  </div>
+  return (
+    <footer className="footer">
+      <span className="text-muted">
+        All Right Reserved 2022 @inYasmani
+      </span>
+    </footer>
+  )
+}
+function LogoutComponent(){
+  return (
+    <>
+      <h1>You are logged out</h1>
+      <div className="container">
+        Thanks You for Using Our Application.
+      </div>
+    </>
+  )
 }
 
 function WelcomeComponent() {
   let params = useParams();
-    return <div>
-              Welcome {params.name}. you can manager todos <Link to="/todos">here</Link>
-            </div>;
+    return <>
+            <h1>Welcome!</h1>
+            <div className="container">
+            Welcome {params.name}. you can manager todos <Link to="/todos">here</Link>
+
+            </div>
+                          </>;
   
 }
 function ListTodoComponent() {
@@ -66,30 +96,32 @@ function ListTodoComponent() {
   ]); 
     return <div>
       <h1>List Todo</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Description</th>
-            <th>Target Date</th>
-            <th>Is Completed?</th>
-          </tr>
-        </thead>
-        <tbody>
-        {
-              todo.map((t,i) =>(
-          <tr key={i}>
-            
-              <td >{t.id}</td>
-              <td>{t.description}</td>
-              <td>{t.done.toString()}</td>
-              <td>{t.targetDate.toString()}</td>
-          </tr>
+      <div className="container">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Description</th>
+              <th>Target Date</th>
+              <th>Is Completed?</th>
+            </tr>
+          </thead>
+          <tbody>
+          {
+                todo.map((t,i) =>(
+            <tr key={i}>
+              
+                <td >{t.id}</td>
+                <td>{t.description}</td>
+                <td>{t.done.toString()}</td>
+                <td>{t.targetDate.toString()}</td>
+            </tr>
 
-              ))
-            }
-        </tbody>
-      </table>
+                ))
+              }
+          </tbody>
+        </table>
+      </div>
     </div>;
   
 }
@@ -145,24 +177,30 @@ function LoginComponent() {
 
     return (
       <>
-        {hasLoginFailed && <div>Invalid Credentials</div>}
-        {showSucessMessage && <div>Login Success</div>}
-        <div>valid Credentials</div>
-        User name:{" "}
+      <div>
+        <h1>Login</h1>
+        <div className="container">
+          {!hasLoginFailed && <div className="alert alert-warning">Invalid Credentials</div>}
+        User name:
         <input
           type="text"
           name="username"
           value={username}
           onChange={HandleChange}
         />
-        Password:{" "}
+        Password:
         <input
           type="password"
           name="password"
           value={password}
           onChange={HandleChange}
         ></input>
-        <button onClick={LoginClicked}>Login</button>
+        <button className="btn btn-success" onClick={LoginClicked}>Login</button>
+
+        </div>
+      </div>
+
+        
       </>
     );
 }
