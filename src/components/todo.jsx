@@ -1,13 +1,14 @@
 import React, { Component ,useState } from "react";
-import { BrowserRouter as Router, Routes, Route ,useParams,useNavigate   } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route ,useParams,useNavigate, Link   } from "react-router-dom";
 
-
+import '../boostrap.css'
 
 class TodoApp extends Component {
   render() {
     return (
       <div className="TodoApp">
        <Router>
+         <HeaderComponent/>
           <Routes>
               <Route exact path="/"  element={<LoginComponent/>} />
               <Route path="/login" element={<LoginComponent/>} />
@@ -15,30 +16,52 @@ class TodoApp extends Component {
               <Route path="/todos" element={<ListTodoComponent/>} />
               <Route path="*" element={<ErrorComponent/>} />
           </Routes>
+          <FooterComponent/>
         </Router>
       </div>
     );
   }
 }
 
+function HeaderComponent(){
+  return <div>
+    Header<hr/>
+  </div>
+}
+
+function FooterComponent(){
+  return <div>
+    <hr/>
+    Footer
+  </div>
+}
+
 function WelcomeComponent() {
   let params = useParams();
-    return <div>welcome {params.name}</div>;
+    return <div>
+              Welcome {params.name}. you can manager todos <Link to="/todos">here</Link>
+            </div>;
   
 }
 function ListTodoComponent() {
   const [todo, setTodo] = useState([
     {
       id: 1,
-      description: 'Learn React'
+      description: 'Learn React',
+      done: false,
+      targetDate: new Date()
     },
     {
       id: 2,
-      description: 'Learn AWS'
+      description: 'Learn AWS',
+      done: true,
+      targetDate: new Date()
     },
     {
       id: 3,
-      description: 'Learn Reat'
+      description: 'Learn Reat',
+      done: false,
+      targetDate: new Date()
     }
   ]); 
     return <div>
@@ -48,6 +71,8 @@ function ListTodoComponent() {
           <tr>
             <th>Id</th>
             <th>Description</th>
+            <th>Target Date</th>
+            <th>Is Completed?</th>
           </tr>
         </thead>
         <tbody>
@@ -57,6 +82,8 @@ function ListTodoComponent() {
             
               <td >{t.id}</td>
               <td>{t.description}</td>
+              <td>{t.done.toString()}</td>
+              <td>{t.targetDate.toString()}</td>
           </tr>
 
               ))
