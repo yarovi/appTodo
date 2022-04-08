@@ -5,6 +5,7 @@ import '../boostrap.css'
 
 import AuthenticationService from "./AuthenticationService";
 import { UserContext } from "../components/context/UserContext"
+import AuthenticateRoute from "./AuthenticateRoute";
 function TodoApp() {
     return (
       <div className="TodoApp">
@@ -14,9 +15,10 @@ function TodoApp() {
               <Routes>
                   <Route exact path="/"  element={<LoginComponent/>} />
                   <Route path="/login" element={<LoginComponent/>} />
-                  <Route path="/welcome/:name" element={<WelcomeComponent/>} />
-                  <Route path="/todos" element={<ListTodoComponent/>} />
-                  <Route path="/logout" element={<LogoutComponent/>} />
+
+                  <Route path="/welcome/:name" element={<AuthenticateRoute> <WelcomeComponent/></AuthenticateRoute>} />
+                  <Route path="/todos" element={<AuthenticateRoute> <ListTodoComponent/></AuthenticateRoute>}  />
+                  <Route path="/logout" element={<AuthenticateRoute> <LogoutComponent/></AuthenticateRoute>} />
                   <Route path="*" element={<ErrorComponent/>} />
               </Routes>
             <FooterComponent/>
