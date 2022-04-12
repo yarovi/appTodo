@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import TodoDataService from "./TodoDataService";
 import { useParams  } from "react-router-dom";
+import AuthenticationService from "./AuthenticationService";
 
 function ListTodoComponent() {
-    let params = useParams();
+    let username = AuthenticationService.loggedUserLoggedIn();
     const [todo, setTodo] = useState([ ]); 
-    console.log('parametro:',params.name)
+    console.log('username:',username)
     useEffect(()=>{
-      TodoDataService(params.name)
+      TodoDataService(username)
         .then((res) => {
         setTodo(res.data)
       });
