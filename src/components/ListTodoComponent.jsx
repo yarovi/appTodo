@@ -1,27 +1,18 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import TodoDataService from "./TodoDataService";
+import { useParams  } from "react-router-dom";
 
 function ListTodoComponent() {
-    const [todo, setTodo] = useState([
-      {
-        id: 1,
-        description: 'Learn React',
-        done: false,
-        targetDate: new Date()
-      },
-      {
-        id: 2,
-        description: 'Learn AWS',
-        done: true,
-        targetDate: new Date()
-      },
-      {
-        id: 3,
-        description: 'Learn Reat',
-        done: false,
-        targetDate: new Date()
-      }
-    ]); 
+    let params = useParams();
+    const [todo, setTodo] = useState([ ]); 
+    console.log('parametro:',params.name)
+    useEffect(()=>{
+      TodoDataService(params.name)
+        .then((res) => {
+        setTodo(res.data)
+      });
+    },[]);
+    
       return <div>
         <h1>List Todo</h1>
         <div className="container">
