@@ -1,21 +1,30 @@
 import React, { useEffect, useState } from "react";
-import TodoDataService from "./TodoDataService";
-import { useParams  } from "react-router-dom";
+import {DeleteTodo, TodoDataService }from "./TodoDataService";
 import AuthenticationService from "./AuthenticationService";
 
 function ListTodoComponent() {
     let username = AuthenticationService.loggedUserLoggedIn();
     const [todo, setTodo] = useState([ ]); 
-    console.log('username:',username)
+    const [message,SetMessage]=useState(null);
     useEffect(()=>{
       TodoDataService(username)
         .then((res) => {
         setTodo(res.data)
       });
-    },[]);
+    },[todo]);
     
+    function deleteClicked (id) {
+      let username = AuthenticationService.loggedUserLoggedIn();
+      console.log('data a eliminar es :',id + ' '+ username);
+      DeleteTodo(username,id).then(res =>{
+        SetMessage(`Delete of Todo ${id} Successful.`);
+      })
+    };
       return <div>
         <h1>List Todo</h1>
+        {message && <div className="alert alert-success">
+          {message}
+        </div>}
         <div className="container">
           <table className="table">
             <thead>
@@ -24,6 +33,7 @@ function ListTodoComponent() {
                 <th>Description</th>
                 <th>Target Date</th>
                 <th>Is Completed?</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -35,6 +45,7 @@ function ListTodoComponent() {
                   <td>{t.description}</td>
                   <td>{t.done.toString()}</td>
                   <td>{t.targetDate.toString()}</td>
+                  <td><button className="btn btn-warning" onClick={() => deleteClicked(t.id)}>Delete</button></td>
               </tr>
   
                   ))
