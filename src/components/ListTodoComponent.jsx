@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import {DeleteTodo, TodoDataService }from "./TodoDataService";
 import AuthenticationService from "./AuthenticationService";
 import {useNavigate   } from "react-router-dom";
+import moment from "moment";
+
 
 function ListTodoComponent() {
     let navigation = useNavigate();
@@ -28,12 +30,14 @@ function ListTodoComponent() {
       })
     };
     function updateClicked (id) {
-      
 
-      console.log('id:',id);
       navigation(`/todos/${id}`);
      
     };
+
+    function addTodo(){
+      navigation(`/todos/-1`);
+    }
       return <div>
         <h1>List Todo</h1>
         {message && <div className="alert alert-success">
@@ -59,7 +63,7 @@ function ListTodoComponent() {
                   <td >{t.id}</td>
                   <td>{t.description}</td>
                   <td>{t.done.toString()}</td>
-                  <td>{t.targetDate.toString()}</td>
+                  <td>{moment(t.targetDate).format('YYYY-MM-DD')}</td>
                   <td><button className="btn btn-success" onClick={() => updateClicked(t.id)}>Update</button></td>
                   <td><button className="btn btn-warning" onClick={() => deleteClicked(t.id)}>Delete</button></td>
               </tr>
@@ -68,6 +72,9 @@ function ListTodoComponent() {
                 }
             </tbody>
           </table>
+          <div className="row">
+                <button className="btn btn-success" onClick={addTodo}>Add</button>
+          </div>
         </div>
       </div>;
     
